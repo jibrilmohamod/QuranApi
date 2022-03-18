@@ -88,4 +88,21 @@
   margin-top: 5%;
   border-radius: 10%;
  }
+ @media screen and (max-width: 400px) {
+  #temp {
+   width: 100vw;
+  }
+  #verse {
+   font-size: 2em;
+  }
+  #link {
+   margin-top: 5%;
+  }
+  #link a {
+   font-size: 1.1em;
+  }
+  #shuffle {
+   font-size: 1.5em;
+  }
+ }
 </style>
