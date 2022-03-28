@@ -6,9 +6,10 @@
   <p id="link">
    <a :href="link" target="_blank">{{ Chapter }}</a>
   </p>
-  <n-button @click="getVerse" id="shuffle">
+  <n-button @click="toggle" id="shuffle">
    <i class="fa-solid fa-shuffle"></i
   ></n-button>
+  <input type="checkbox" v-model="jman" />
  </div>
 </template>
 
@@ -21,6 +22,7 @@
     Verse: "",
     Chapter: "",
     link: "",
+    jman: false,
    }
   },
   components: {
@@ -36,37 +38,57 @@
       this.link = data.link
      })
    },
+   getHadith() {
+    fetch("https://api.muslim-tab.com/hadiths/english/random")
+     .then((resp) => resp.json())
+     .then((data) => {
+      this.Verse = data.hadith
+      this.Chapter = data.reference
+      this.link = data.link
+     })
+   },
+   toggle() {
+    if (this.jman === true) {
+     this.getHadith()
+    } else {
+     this.getVerse()
+    }
+   },
   },
   created() {
    this.getVerse()
+   console.log(this.getHadith())
   },
  }
 </script>
 
 <style scoped>
- template {
-  border: 1px green solid;
- }
  #temp {
   margin: 0 auto;
-  /* border: 1px red dotted; */
   width: 100vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 90vh;
+  height: 100%;
+  /* display: grid; */
+  /* grid-template: 60% 30% 10%/80% 20%; */
  }
  #verse {
   margin: 0 auto;
   width: 80%;
+  height: 60%;
   font-family: "Merienda", cursive;
   font-weight: 700;
   font-size: 4em;
   text-align: center;
+  grid-area: verse;
+  align-self: center;
+  /* border: 10px solid red; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
  }
+
  #link {
-  margin-top: 5%;
+  grid-area: header;
  }
  #link a {
   text-decoration: none;
@@ -87,6 +109,10 @@
   justify-content: center;
   margin-top: 5%;
   border-radius: 10%;
+  grid-area: footer;
+ }
+ input {
+  grid-area: side;
  }
  @media screen and (max-width: 400px) {
   #temp {
